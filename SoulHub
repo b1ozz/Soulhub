@@ -1,0 +1,156 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Soul Hub",
+   LoadingTitle = "Welcome to Soul Hub",
+   LoadingSubtitle = "by B1ozz",
+   Theme = "Serenity",
+
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Soul Hub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "nJTtwHmbdB", -- The Discord invite code without discord.gg/
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Enable the key system
+   KeySettings = {
+      Title = "Soul Hub | Key",
+      Subtitle = "Key System",
+      Note = "Get Soul Hub Key Here https://discord.gg/nJTtwHmbdB",
+      FileName = "Enter Key",
+      SaveKey = false, -- User's key will not persist
+      GrabKeyFromSite = true, -- Key fetched from a site
+      Key = {"https://pastebin.com/raw/Hs7EKCzV"} -- List of valid keys or RAW links
+   }
+})
+
+-- Player Tab renamed from Main Menu
+local PlayerTab = Window:CreateTab("Player", nil) -- Title, Image
+local PlayerSection = PlayerTab:CreateSection("Player")
+
+-- Infinite Jump Button (unchanged)
+local InfiniteJumpButton = PlayerTab:CreateButton({
+   Name = "Infinite Jump | Toggle",
+   Callback = function()
+       -- Toggles the infinite jump between on or off
+       _G.infinjump = not _G.infinjump
+
+       if _G.infinJumpStarted == nil then
+           -- Ensure this runs only once
+           _G.infinJumpStarted = true
+
+           -- Notify user
+           game.StarterGui:SetCore("SendNotification", {Title="Soul Hub"; Text="Infinite Jump Activated!"; Duration=5;})
+
+           -- Infinite jump logic
+           local plr = game:GetService('Players').LocalPlayer
+           local m = plr:GetMouse()
+           m.KeyDown:connect(function(k)
+               if _G.infinjump then
+                   if k:byte() == 32 then
+                       local humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                       humanoid:ChangeState("Jumping")
+                       wait()
+                       humanoid:ChangeState("Seated")
+                   end
+               end
+           end)
+       end
+   end,
+})
+
+-- WalkSpeed Slider (added back)
+local WalkSpeedSlider = PlayerTab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {1, 500},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "sliderws",
+   Callback = function(Value)
+       game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+   end,
+})
+
+-- Jump Power Slider (kept unchanged)
+local JumpPowerSlider = PlayerTab:CreateSlider({
+   Name = "JumpPower",
+   Range = {1, 350},
+   Increment = 1,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Flag = "sliderjp",
+   Callback = function(Value)
+       game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+   end,
+})
+
+-- Infinite Yield Button (added to Player Tab)
+local InfiniteYieldButton = PlayerTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/edgeiy/infiniteyield/master/source"))()
+   end,
+})
+
+-- Aimbots Tab
+local AimbotsTab = Window:CreateTab("Aimbots", nil) -- Title, Image
+local AimbotsSection = AimbotsTab:CreateSection("Aimbots")
+
+-- Styled CamLock Button
+local CamLockButton = AimbotsTab:CreateButton({
+   Name = "CamLock",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlock-aimlock/main/obf_Wxr6QgzF76G1y2Ch77KN4Zt5Nz0A6GIl61gitv3mRR2t3V103al5d0g26s4KY04r.lua.txt"))()
+   end,
+})
+
+local OpenAimbotButton = AimbotsTab:CreateButton({
+   Name = "Open Aimbot",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))()
+   end,
+})
+
+-- Games Tab
+local GamesTab = Window:CreateTab("Games", nil) -- Title, Image
+local GamesSection = GamesTab:CreateSection("Games")
+
+-- Fisch-related buttons inside Games tab
+local KncryptHubButton = GamesTab:CreateButton({
+   Name = "Kncrypt Hub",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/Kncrypt/refs/heads/main/sources/Fisch.lua"))({true})
+   end,
+})
+
+-- Murder Mystery 2 button inside Games tab
+local MM2Button = GamesTab:CreateButton({
+   Name = "MM2 Candy Farm",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/vexroxd/My-Script-/refs/heads/main/MM2-Candy-Farm"))()
+   end,
+})
+
+-- Credits Tab
+local CreditsTab = Window:CreateTab("Credits", nil) -- Title, Image
+local CreditsSection = CreditsTab:CreateSection("Credits")
+
+CreditsTab:CreateLabel("Thanks For Using Soul Hub, Made by B1ozz")
+CreditsTab:CreateLabel("Join My Discord Server for more updates!")
+CreditsTab:CreateButton({
+   Name = "Click to Copy Discord Link",
+   Callback = function()
+       setclipboard("https://discord.gg/nJTtwHmbdB")
+       Rayfield:Notify({
+           Title = "Discord Link Copied",
+           Content = "Discord invite link copied to clipboard!",
+           Duration = 5,
+           Image = 8693597113,
+       })
+   end,
+})
