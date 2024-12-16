@@ -1,3 +1,5 @@
+2387tX!(B@^#%RC!@^#BCT!N@(#V*BTV!@#&$*%!@RC^!*@B%#^!V@*#^!@N*$XCN!@%$TCV!(@^T$
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
