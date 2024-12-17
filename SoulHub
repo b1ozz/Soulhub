@@ -130,7 +130,7 @@ local KncryptHubButton = GamesTab:CreateButton({
 
 -- Murder Mystery 2 button inside Games tab
 local MM2Button = GamesTab:CreateButton({
-   Name = "MM2 Candy Farm",
+   Name = "MM2 Vortex",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/vexroxd/My-Script-/refs/heads/main/MM2-Candy-Farm"))()
    end,
