@@ -1,5 +1,6 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- Main Window Configuration
 local Window = Rayfield:CreateWindow({
    Name = "Soul Hub",
    LoadingTitle = "Welcome to Soul Hub",
@@ -8,148 +9,155 @@ local Window = Rayfield:CreateWindow({
 
    ConfigurationSaving = {
       Enabled = false,
-      FolderName = nil, -- Create a custom folder for your hub/game
+      FolderName = nil, -- Custom folder for config files
       FileName = "Soul Hub"
    },
+
    Discord = {
       Enabled = true,
-      Invite = "nJTtwHmbdB", -- The Discord invite code without discord.gg/
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+      Invite = "nJTtwHmbdB", -- Discord invite code
+      RememberJoins = true
    },
-   KeySystem = false, -- Enable the key system
+
+   KeySystem = false, -- Set to true to enable key system
    KeySettings = {
       Title = "Soul Hub | Key",
       Subtitle = "Key System",
-      Note = "Get Soul Hub Key Here https://discord.gg/nJTtwHmbdB",
+      Note = "Get your key here: https://discord.gg/nJTtwHmbdB",
       FileName = "Enter Key",
-      SaveKey = false, -- User's key will not persist
-      GrabKeyFromSite = true, -- Key fetched from a site
-      Key = {"https://pastebin.com/raw/Hs7EKCzV"} -- List of valid keys or RAW links
+      SaveKey = false, -- Key won't persist between sessions
+      GrabKeyFromSite = true, 
+      Key = {"https://pastebin.com/raw/Hs7EKCzV"} -- RAW key link
    }
 })
 
--- Player Tab renamed from Main Menu
-local PlayerTab = Window:CreateTab("Player", nil) -- Title, Image
-local PlayerSection = PlayerTab:CreateSection("Player")
+-- Player Tab
+local PlayerTab = Window:CreateTab("Player", nil)
+PlayerTab:CreateSection("Player Controls")
 
--- Infinite Jump Button (unchanged)
+-- Infinite Jump Button
 local InfiniteJumpButton = PlayerTab:CreateButton({
    Name = "Infinite Jump | Toggle",
    Callback = function()
-       -- Toggles the infinite jump between on or off
        _G.infinjump = not _G.infinjump
 
        if _G.infinJumpStarted == nil then
-           -- Ensure this runs only once
            _G.infinJumpStarted = true
-
-           -- Notify user
-           game.StarterGui:SetCore("SendNotification", {Title="Soul Hub"; Text="Infinite Jump Activated!"; Duration=5;})
-
-           -- Infinite jump logic
+           game.StarterGui:SetCore("SendNotification", {
+               Title = "Soul Hub",
+               Text = "Infinite Jump Activated!",
+               Duration = 5
+           })
            local plr = game:GetService('Players').LocalPlayer
-           local m = plr:GetMouse()
-           m.KeyDown:connect(function(k)
-               if _G.infinjump then
-                   if k:byte() == 32 then
-                       local humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+           local mouse = plr:GetMouse()
+
+           mouse.KeyDown:Connect(function(key)
+               if _G.infinjump and key:byte() == 32 then -- Spacebar key
+                   local humanoid = plr.Character:FindFirstChildOfClass("Humanoid")
+                   if humanoid then
                        humanoid:ChangeState("Jumping")
-                       wait()
-                       humanoid:ChangeState("Seated")
                    end
                end
            end)
        end
-   end,
+   end
 })
 
--- WalkSpeed Slider (added back)
-local WalkSpeedSlider = PlayerTab:CreateSlider({
+-- WalkSpeed Slider
+PlayerTab:CreateSlider({
    Name = "WalkSpeed",
    Range = {1, 500},
    Increment = 1,
    Suffix = "Speed",
    CurrentValue = 16,
-   Flag = "sliderws",
    Callback = function(Value)
-       game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
-   end,
+       local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+       if humanoid then
+           humanoid.WalkSpeed = Value
+       end
+   end
 })
 
--- Jump Power Slider (kept unchanged)
-local JumpPowerSlider = PlayerTab:CreateSlider({
+-- JumpPower Slider
+PlayerTab:CreateSlider({
    Name = "JumpPower",
    Range = {1, 350},
    Increment = 1,
    Suffix = "Power",
    CurrentValue = 50,
-   Flag = "sliderjp",
    Callback = function(Value)
-       game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-   end,
+       local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+       if humanoid then
+           humanoid.JumpPower = Value
+       end
+   end
 })
 
--- Infinite Yield Button (added to Player Tab)
-local InfiniteYieldButton = PlayerTab:CreateButton({
+-- Infinite Yield Button
+PlayerTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/edgeiy/infiniteyield/master/source"))()
-   end,
+   end
 })
 
 -- Aimbots Tab
-local AimbotsTab = Window:CreateTab("Aimbots", nil) -- Title, Image
-local AimbotsSection = AimbotsTab:CreateSection("Aimbots")
+local AimbotsTab = Window:CreateTab("Aimbots", nil)
+AimbotsTab:CreateSection("Aimbot Options")
 
--- Styled CamLock Button
-local CamLockButton = AimbotsTab:CreateButton({
+AimbotsTab:CreateButton({
    Name = "CamLock",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlock-aimlock/main/obf_Wxr6QgzF76G1y2Ch77KN4Zt5Nz0A6GIl61gitv3mRR2t3V103al5d0g26s4KY04r.lua.txt"))()
-   end,
+   end
 })
 
-local OpenAimbotButton = AimbotsTab:CreateButton({
+AimbotsTab:CreateButton({
    Name = "Open Aimbot",
    Callback = function()
-       loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))()
-   end,
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua"))()
+   end
 })
 
 -- Games Tab
-local GamesTab = Window:CreateTab("Games", nil) -- Title, Image
-local GamesSection = GamesTab:CreateSection("Games")
+local GamesTab = Window:CreateTab("Games", nil)
+GamesTab:CreateSection("Game Scripts")
 
--- Fisch-related buttons inside Games tab
-local KncryptHubButton = GamesTab:CreateButton({
+GamesTab:CreateButton({
    Name = "Fisch Kncrypt Hub",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/Kncrypt/refs/heads/main/sources/Fisch.lua"))({true})
-   end,
+   end
 })
 
--- BloxFruits-related buttons inside Games tab
-local KncryptHubButton = GamesTab:CreateButton({
+GamesTab:CreateButton({
    Name = "Bloxfruits Kncrypt Hub",
    Callback = function()
-       loadstring(game.HttpGet(game,'https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/BloxFruit-XYZ.lua'))()
-   end,
+       loadstring(game:HttpGet('https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/BloxFruit-XYZ.lua'))()
+   end
 })
 
--- Murder Mystery 2 button inside Games tab
-local MM2Button = GamesTab:CreateButton({
+GamesTab:CreateButton({
    Name = "MM2 Vortex",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/vexroxd/My-Script-/refs/heads/main/MM2-Candy-Farm"))()
-   end,
+   end
+})
+
+GamesTab:CreateButton({
+   Name = "Speed Hub X",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()
+   end
 })
 
 -- Credits Tab
-local CreditsTab = Window:CreateTab("Credits", nil) -- Title, Image
-local CreditsSection = CreditsTab:CreateSection("Credits")
+local CreditsTab = Window:CreateTab("Credits", nil)
+CreditsTab:CreateSection("Credits")
 
 CreditsTab:CreateLabel("Thanks For Using Soul Hub, Made by B1ozz")
-CreditsTab:CreateLabel("Join My Discord Server for more updates!")
+CreditsTab:CreateLabel("Join My Discord Server for Updates!")
+
 CreditsTab:CreateButton({
    Name = "Click to Copy Discord Link",
    Callback = function()
@@ -157,8 +165,7 @@ CreditsTab:CreateButton({
        Rayfield:Notify({
            Title = "Discord Link Copied",
            Content = "Discord invite link copied to clipboard!",
-           Duration = 5,
-           Image = 8693597113,
+           Duration = 5
        })
-   end,
+   end
 })
