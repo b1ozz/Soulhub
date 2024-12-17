@@ -122,9 +122,17 @@ local GamesSection = GamesTab:CreateSection("Games")
 
 -- Fisch-related buttons inside Games tab
 local KncryptHubButton = GamesTab:CreateButton({
-   Name = "Kncrypt Hub",
+   Name = "Fisch Kncrypt Hub",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/Kncrypt/refs/heads/main/sources/Fisch.lua"))({true})
+   end,
+})
+
+-- BloxFruits-related buttons inside Games tab
+local KncryptHubButton = GamesTab:CreateButton({
+   Name = "Bloxfruits Kncrypt Hub",
+   Callback = function()
+       loadstring(game.HttpGet(game,'https://raw.githubusercontent.com/Yumiara/Python/refs/heads/main/BloxFruit-XYZ.lua'))()
    end,
 })
 
